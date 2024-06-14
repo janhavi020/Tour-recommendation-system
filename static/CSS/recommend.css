@@ -1,0 +1,47 @@
+        .alert_msg{
+            font-size: 30px;
+            margin: 100px;
+            padding: 100px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+        }
+        .container h2{
+            margin-bottom:30px;
+        }
+        .card-body{
+        margin:20px 400px;
+        }
+        .carousel-item img {
+            width:400px;
+            height: 300px; /* Adjust the height of the carousel images */
+            margin: auto; /* Center the images horizontally */
+        }
+
+        .carousel-inner {
+            height: auto /* Adjust the maximum height of the carousel */
+        }
+        .carousel-control-prev,
+        .carousel-control-next {
+            top: 0px /* Position the carousel controls vertically in the middle */
+        }
+
+        .carousel-control-prev {
+            left: 10px; /* Adjust the position of the previous control */
+        }
+
+        .carousel-control-next {
+            right: 10px; /* Adjust the position of the next control */
+        }
+        .hotels{
+        display:flex;
+        justify-content:center;
+        padding:50px;
+        }
+        .btn a{
+        text-decoration:none;
+        color:white;
+        font-size:20px;
+        font-family:Serif;
+        font-weight:bolder;
+        }

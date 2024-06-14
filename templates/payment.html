@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="{{ url_for('static',     filename='/CSS/style.css') }}">
+    <style>
+
+        /* Styles for the payment form */
+body {
+    font-family: Arial, sans-serif;
+    background-color:  #4465dd;;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    border:1px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height:100%;
+}
+
+h1 {
+    text-align: center;
+    color: #123456;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #123456;
+}
+
+#card-element {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
+
+#card-errors {
+    color: #dc3545;
+    margin-top: 10px;
+}
+
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment</h1>
+        <div class="payment-details">
+            <p>Total Amount:{{ total_price }}</p>
+            <form action="/conformation" method="post" id="payment-form">
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert"></div>
+                <button type="submit"><a href="{{ url_for('conformation') }}">Pay Now</a></button>
+            </form>
+        </div>
+    </div>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- Script to handle Stripe.js -->
+    <script>
+        var stripe = Stripe('pk_test_51OltdoSHI7TWeJ0u0AiG7h4HXR3FFpqzN0i1uC7bgSDZ2dJl37bQuAftSkANvgHn8XzZuLNgU2cZfnutuWFpooei00wQN7Ztk5');
+
+        // Create an instance of Elements
+        var elements = stripe.elements();
+
+        // Create an instance of the card Element
+        var card = elements.create('card');
+
+        // Add an instance of the card Element into the card-element div
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element
+        card.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Handle form submission
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Disable the submit button to prevent multiple submissions
+            form.querySelector('button').disabled = true;
+
+            // Create payment token
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+
+                    // Enable the submit button
+                    form.querySelector('button').disabled = false;
+                } else {
+                    // Token was successfully created, add it to the form and submit
+                    var tokenInput = document.createElement('input');
+                    tokenInput.setAttribute('type', 'hidden');
+                    tokenInput.setAttribute('name', 'stripeToken');
+                    tokenInput.setAttribute('value', result.token.id);
+                    form.appendChild(tokenInput);
+                    form.submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

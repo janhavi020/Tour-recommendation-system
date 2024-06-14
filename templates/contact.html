@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Links To All Style Files -->
+      <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/contactUs.css') }}">
+    <title>Contact Us</title>
+</head>
+<body>
+{% extends "header.html" %}
+    {% block content %}
+                <div class="content" >
+                    <h2>Contact Us</h2>
+                    <p>Experience Elevated Travel with Atlas. Discover tailored recommendations that inspire your next adventure. Connect with us today for personalized guidance towards unforgettable destinations.</p>
+                </div>
+ <div class="contactPage">
+                    <div class="contactInfo">
+                        <div class="box">
+                            <div class="icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                            <div class="text">
+                                <h3>Address</h3>
+                                <p>43, VB Gandhi Marg, Kala Ghoda, Fort,<br /> Mumbai, Maharashtra 400023, India </p>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="text">
+                                <h3>Phone</h3>
+                                <p>+91 9828965712</p>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="text">
+                                <h3>Email</h3>
+                                <p>tourRecommend@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+          <div class="feedback-form">
+    <h3>Give Your <span>Feedback</span> Here!</h3>
+    <form action="/submit_feedback" method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter Your Name" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter Your Email" required>
+        <label for="feedback">Feedback</label>
+        <textarea id="feedback" name="feedback" placeholder="Enter your Feedback" required></textarea>
+            <button type="submit" class="btn" style="margin-top:30px; ">Submit Feedback</button>
+    </form>
+            {% if feedback_submitted %}
+            <div class="feedback-message">
+                <h5>Feedback Submission Successful</h5>
+                <h5>Thank you for your feedback!</h5>
+            </div>
+            {% endif %}
+</div>
+ </div>
+
+{% endblock %}
+</body>
+</html>

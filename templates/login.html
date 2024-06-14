@@ -1,0 +1,169 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Favicon Icon -->
+<link href="/assets/brand-icon.svg" rel="icon" type="image/x-icon">
+    <!-- Font Awesome CDN -->
+
+    <!-- Links To All Style Files -->
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          referrerpolicy="no-referrer" rel="stylesheet"/>
+
+    <style>
+        /* Add your CSS here(optional) */
+
+        *{
+            color: white;
+
+        }
+        #box{
+            min-height: 80vh;
+            width: min(500px,95%);
+            border: 5px solid whitesmoke;
+            margin: auto;
+            background-color: var(--background-dark);
+            overflow: hidden;
+            border-radius: 2rem;
+            border:2px solid var(--background-light);
+            margin-block: 5rem;
+            padding-block: 1rem;
+            position:relative;
+        }
+        #watermark{
+            position: absolute;
+            position: absolute;
+            bottom:-3%;
+            right: 2%;
+            font-size: 8rem;
+            color:var(--background-light);
+            opacity: 0.2;
+        }
+        .logSignTogle{
+            width: 70%;
+            margin: 2rem auto;
+            display: flex;
+            justify-content: flex-start;
+            gap:1rem;
+        }
+
+        .inactive{
+            padding: 0.5em 1.5rem;
+            border:1px solid var(--primary);
+            background-color: transparent;
+            color:var(--primary);
+        }
+        .main{
+            display: flex;
+            justify-content: center;
+            margin-block: 3rem;
+        }
+        .main>*{
+            width: 70%;
+        }
+        .signup-page {
+            display: none;
+        }
+        .container > div:nth-child(1){
+            width: 400px;
+            margin: auto;
+        }
+
+        #box input{
+            width: 100%;
+            padding: 0.5rem 1rem ;
+            color:var(--background-dark);
+            border-radius: 50px;
+            font-size: var(--nav-link);
+            border:2px solid transparent;
+        }
+        #box input:focus{
+            border:2px solid var(--background-light);
+        }
+        #box input[type="submit"]{
+            margin-top: 1rem;
+            width: auto;
+            cursor: pointer !important;
+        }
+        #box #log,#box #sign{
+            color: var(--white);
+            border: none;
+        }
+        #box .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .form-group label {
+            /* flex-basis: 100px; */
+           margin-bottom: 0.5rem;
+           font-size: var(--paragraph-small);
+           text-transform: uppercase;
+           letter-spacing: 2px;
+        }
+
+        .form-group input {
+            flex-grow: 1;
+            /* padding: 5px; */
+        }
+    </style>
+</head>
+<body>
+
+{% extends "header.html" %}
+    {% block content %}
+        <section class="container">
+            <!-- Write Your HTML Code here -->
+            <div id="box">
+                <div class="main">
+                    <!-- Add login page details here -->
+                    <div id="login" class="login-page">
+                        <form action="/login" method="POST">
+            {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.name.label(for="name")}}
+            {{ form.name(id="name", class="form-control")}}
+
+            {% if form.name.errors %}
+              <ul>
+                  {% for error in form.name.errors %}
+                      <li>{{ error }}</li>
+                  {% endfor %}
+              </ul>
+            {% endif %}
+        </div><br>
+
+        <div class="form-group">
+            {{ form.password.label(for="password")}}
+            {{ form.password(id="password", class="form-control")}}
+
+            {% if form.password.errors %}
+                <ul>
+                    {% for error in form.password.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div><br>
+                            <div class="form-group">
+
+                    <button type="submit" class="btn btn-dark mt-4" style="text-align:center">Login</button>
+                </div>
+       <div class="form-group">
+                    <a href="/signup">Don't have an account? <span style="color: #ff7c47;">Sign up here.</span> </a>
+                </div>
+    </form>
+                        <i class="fa-solid fa-users" id="watermark"></i>
+                    </div>
+            </div>
+            </div>
+        </section>
+{% endblock %}
+</body>
+
+</html>

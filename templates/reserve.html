@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Reservation</title>
+        <link rel="stylesheet" href="{{ url_for('static',     filename='/CSS/style.css') }}">
+    <style>
+        /* General Styling */
+body {
+  font-family: sans-serif;
+  margin: 40px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+form {
+  width: 400px; /* Adjust as needed */
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Specific Styling */
+#name,
+#mobile {
+  /* Styles for name, mobile, and email fields */
+}
+
+#date {
+  /* Styles for date and number fields */
+}
+
+#restaurant_name {
+  background-color: #f0f0f0; /* Lighter background for read-only fields */
+}
+
+/* Responsiveness */
+@media (max-width: 500px) {
+  form {
+    width: 100%;
+  }
+}
+
+    </style>
+</head>
+<body>
+ {% extends "header.html" %}
+    {% block content %}
+    <h1>Restaurant Reservation</h1>
+<form action="/reserve"    method="POST">
+        {{ form.hidden_tag() }}  <!-- Add CSRF token -->
+        <div>
+            <label for="restaurant_name">Restaurant Name:</label>
+            <input type="text" id="restaurant_name" name="restaurant_name" value="{{ restaurant_name }}"readonly><br>
+        </div>
+        <div>
+            {{ form.name.label }}<br>
+            {{ form.name(size=25) }}<br>
+            {% for error in form.name.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.mobile.label }}<br>
+            {{ form.mobile(size=10) }}<br>
+            {% for error in form.mobile.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.date.label }}<br>
+            {{ form.date(size=10) }}<br>
+            {% for error in form.date.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.num_people.label }}<br>
+            {{ form.num_people(size=2) }}<br>
+            {% for error in form.num_people.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </div>
+        <div>
+            {% if form.num_people.data %}
+                <p>Number of Tables Required: {{ form.num_people.data // 4 + (1 if form.num_people.data % 4 else 0) }}</p>
+            {% endif %}
+        </div>
+        <div>
+            <form>
+          <button type="submit"><a href="{{ url_for('conf') }}">Reserve</a></button>
+        </form>
+        </div>
+    </form>
+{% endblock %}
+</body>
+</html>

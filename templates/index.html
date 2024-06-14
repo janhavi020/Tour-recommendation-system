@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Tour Recommender</title>
+
+      <link rel="stylesheet" href="{{ url_for('static',     filename='/CSS/gallery.css') }}">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+ {% extends "header.html" %}
+    {% block content %}
+<div class="hero-image-container" >
+           <video src="static/assets/vid3.mp4"  autoplay loop muted ></video>
+           </div>
+    <main>
+        <section class="container hero-section">
+           <div class="hero-content-container">
+            <div class="hero-content">
+                <h1>Awesome <span style="color:var(--highlight)">Trip!</span></h1>
+                <p>Atals is a service for booking hotels and restaurants</p>
+            </div>
+               <form action="/recommend" method="POST" >
+    <div class="searchbox">
+        <input list="datalistOptions" id="place-select" name="selected_place">
+        <datalist id="datalistOptions">
+            {% for place in place_list %}
+                    <option value="{{ place }}">{{ place }}</option>
+            {% endfor %}
+        </datalist>
+    </div>
+    <button class="btn" type="submit">Search</button>
+               </form>
+           </div>
+        </section>
+
+        <!--hotels and restaurant search-->
+         <div class="container">
+        <section class="container">
+                <div class="packages-content">
+                    <h2>Book Service</h2>
+                    <p>Atlas is a service for booking hotels and restaurants</p>
+                   <button class="btn" id="packageBtn"> <a style="text-decoration:none; color:white;"  href="{{ url_for('contactUs') }}">Learn More</a></button>
+                </div>
+                <div class="packages-cards">
+                    <div class="card package-card">
+                        <div class="package-card-img">
+                            <img src="static/assets/indexHotel.jpeg" alt="Mumbai Image">
+                        </div>
+                        <div class="package-card-content">
+                            <h4>HOTELS</h4>
+                            <div>
+                                <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                            </div>
+                            <button class="btn">
+                           <a style="text-decoration:none; color:white;" href="{{ url_for('hotels_results') }}">View Now</a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="large-card package-card">
+                        <div class="package-card-img">
+                            <img src="static/assets/IndexRestaurant.jpg" alt="Amsterdam Image">
+                        </div>
+                        <div class="package-card-content">
+                            <h4>RESTAURANTS</h4>
+                            <div>
+                                <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                            </div>
+                            <button class="btn">
+                         <a style="text-decoration:none; color:white;" href="{{ url_for('restaurants_results') }}">View Now</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+       </div>
+
+        <!--gallery-->
+<div class="container2">
+    <h1 class="title">image gallery</h1>
+    <div class="image-container2">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-o/11/21/30/7f/nilkanthdham-swaminarayan.jpg" alt="marine drive">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-o/0f/18/15/40/leh-side-after-tanglang.jpg" alt="">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-m/1280/13/86/b2/42/taj-mahal.jpg" alt="">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-o/0d/40/ce/c3/mumbai-marine-drive-along.jpg" alt="">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-o/0b/00/52/7c/1.jpg" alt="">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-o/0f/ad/9e/ca/raja-rani-temple.jpg" alt="">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-o/09/e5/9d/36/zoologycal-park-a-view.jpg" alt="">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-o/11/0b/1a/3f/img20171020081809-largejpg.jpg" alt="">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-o/09/b1/e1/b2/kidzania-mumbai.jpg" alt="">
+    </div>
+
+</div>
+
+
+</main>
+  {% endblock %}
+  </body>
+</html>

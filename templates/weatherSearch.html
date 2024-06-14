@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather</title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .weather{
+        margin:30px 300px;
+        }
+         .weather-card {
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding:20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .weather-card p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+{% extends "header.html" %}
+{% block content %}
+<div class="container">
+    <div class="weather">
+    <h2>Weather Search</h2>
+    <form id="weatherForm">
+        <div class="form-group">
+            <input type="text" id="locations" style="width:50%" name="locations" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div id="weatherResults" class="mt-4"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script>
+    $(function() {
+        $.ajax({
+            url: "csvjson.json",
+            dataType: "json",
+            success: function(data) {
+                const cities = data.filter(entry => entry.addressObj && entry.addressObj.country === 'India').map(entry => entry.addressObj.city);
+                $("#locations").autocomplete({
+                    source: cities
+                });
+            },
+            error: function(err) {
+                console.error(err);
+            }
+        });
+    });
+
+    async function fetchWeatherData(locations) {
+        const url = `https://cities-temperature.p.rapidapi.com/weather/v1?city=${locations}`;
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': os.environ.get("weather_api_key"),
+                'X-RapidAPI-Host': os.environ.get("weather_api_host")
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+
+            const weatherResultsDiv = document.getElementById('weatherResults');
+            weatherResultsDiv.innerHTML = ''; // Clear previous results
+
+            const weatherCard = document.createElement('div');
+            weatherCard.classList.add('weather-card');
+
+            const cityName = document.createElement('h2');
+            cityName.textContent = result.city;
+
+            const temperatureC = document.createElement('p');
+            temperatureC.textContent = `Temperature (C): ${result.temperatureC}`;
+
+            const temperatureF = document.createElement('p');
+            temperatureF.textContent = `Temperature (F): ${result.temperatureF}`;
+
+            weatherCard.appendChild(cityName);
+            weatherCard.appendChild(temperatureC);
+            weatherCard.appendChild(temperatureF);
+
+            weatherResultsDiv.appendChild(weatherCard);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    $(document).on('submit', '#weatherForm', function(event) {
+        event.preventDefault();
+        const locations = $('#locations').val().trim();
+        fetchWeatherData(locations);
+
+    });
+</script>
+    </div>
+{% endblock %}
+
+</body>
+</html>

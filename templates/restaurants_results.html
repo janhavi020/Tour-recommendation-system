@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurants</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Positioning the .hotel-img as a background */
+        .hotel-img {
+            position: relative; /* Change position to relative */
+            width: 100%;
+            height: 70vh; /* Set height to auto to maintain image aspect ratio */
+            overflow: hidden; /* Hide any overflow content */
+            margin-bottom:30px;
+        }
+
+        .hotel-img img {
+            width: 100%;
+            height: 70vh; /* Set height to auto to maintain image aspect ratio */
+            object-fit: cover;
+        }
+
+        /* Styling for the search container */
+        .search-container {
+            position: absolute; /* Position the container absolutely */
+            top: 50%; /* Place it in the middle vertically */
+            left: 50%; /* Place it in the middle horizontally */
+            transform: translate(-50%, -50%); /* Center it */
+            text-align: center; /* Center align the contents */
+        }
+
+        .searchbox {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+{% extends "header.html" %}
+{% block content %}
+<!--hotel search-->
+<div class="hotel-img">
+    <img src="static/assets/res-img1.jpg">
+    <div class="search-container">
+        <h3 style="padding: 20px 20px; border-radius: 5px; color: #fff;">
+            <span style="background-color: #193282; font-family:Serif">Search nearby restaurants by place name</span></h3>
+        <form action="/restaurants_results" method="POST">
+            <div class="searchbox">
+                <input list="datalistOptions" name="search_query2" id="restaurant-select">
+                <datalist id="datalistOptions">
+                    {% for name in name_list %}
+                        <option value="{{ name }}">
+                    {% endfor %}
+                </datalist>
+            </div>
+            <button class="btn" type="submit" style="border-radius:30px">Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    {% if resResults is not none and resResults %}
+        <h2 class="mt-5" style="margin-bottom:20px;">restaurants near "{{ query2 }}"</h2>
+        {% for restaurants in resResults %}
+                <div class="card-body bg-light text-dark" style="margin-bottom:30px; border-radius:40px;">
+                    <h5 class="card-title" style="font-size:30px; color:black; font-weight:500">{{ restaurants['name'] }}</h5>
+                    <p class="card-text text-info" style="font-size:20px; font-weight:500">Address: {{ restaurants['address'] }}</p>
+                    <p class="card-text text-info" style="font-size:20px; font-weight:500">City: {{ restaurants['city'] }}</p>
+                    <p class="card-text text-info" style="font-size:20px; font-weight:500">Cuisines: {{ restaurants['cuisines'] }}</p>
+                    <p class="card-text text-info" style="font-size:20px; font-weight:500">Highlights: {{ restaurants['highlights'] }}</p>
+                    <p class="card-text text-info" style="font-size:20px; font-weight:500">Timings: {{ restaurants['timings'] }}</p>
+                    <p class="card-text text-info" style="font-size:20px; font-weight:500">Restaurant Rating: {{ restaurants['aggregate_rating'] }}</p>
+                    <form>
+                    <!-- Hidden input to store restaurant name -->
+                    <input type="hidden" name="restaurant_name" value="{{ restaurants['name'] }}">
+                    <!-- Button with onclick event to reserve -->
+                        <button class="btn reserve-btn" type="button" style="text-decoration:none; color:white"><a href="{{ url_for('reserve',restaurant_name=restaurants['name']) }}">Reserve Now</a></button>
+                </form>
+                </div>
+
+        {% endfor %}
+    {% elif request.method == "POST" %}
+        <h3 style="text-align: center; padding: 50px 0;" class="mt-5">No results found. Please try again.</h3>
+    {% endif %}
+</div>
+<script>
+    // Get all reserve buttons
+    const reserveButtons = document.querySelectorAll('.reserve-btn');
+
+    // Add click event listener to each button
+    reserveButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the restaurant name associated with this button
+            const restaurantName = this.getAttribute('data-restaurant');
+
+            // Redirect user to reserve page with restaurant name as query parameter
+            window.location.href = `/reserve=${restaurantName}`;
+        });
+    });
+</script>
+{% endblock %}
+</body>
+</html>

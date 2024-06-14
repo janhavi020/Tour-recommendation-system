@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
+
+*{
+  margin:0; padding:0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.container2{
+  max-width: 85%;
+  margin:20px auto;
+  margin-top:50px;
+}
+
+.container2 .title{
+  font-size: 40px;
+  font-weight:500;
+  color:#fff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding:15px;
+
+}
+
+.container2 .image-container2{
+  columns:3 250px;
+  gap:15px;
+}
+
+.container2 .image-container2 img{
+  margin-bottom: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+/* Hide alt text by default */
+.image-container2 img::after {
+    content: attr(alt);
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 999;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+/* Display alt text on hover */
+.image-container2 img:hover::after {
+    display: block;
+}

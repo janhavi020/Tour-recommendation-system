@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recommended Tours</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+      <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/recommend.css') }}">
+</head>
+<body>
+{% extends "header.html" %}
+{% block content %}
+<!--hotels search bar-->
+<div class="hotels" >
+    <button class="btn" style=" margin-right: 20px;">
+    <a href="{{ url_for('hotels_results') }}"><i class="fa-solid fa-hotel"></i>  HOTELS</a>
+    </button>
+
+<!--restaurants search bar-->
+<button class="btn" style=" margin-left: 20px;" >
+    <a href="{{ url_for('restaurants_results') }}"><i class="fa-solid fa-utensils"></i>  RESTAURANTS</a>
+</button>
+    <button class="btn" style=" margin-left: 25px;" >
+    <a href="{{ url_for('weatherSearch') }}"><i class="fa-solid fa-cloud"></i>  WEATHER SEARCH</a>
+</button>
+</div>
+
+
+<form action="/recommend" method="POST" style="display: flex; justify-content: center; align-items: center; padding:50px">
+    <div class="searchbox">
+        <input list="datalistOptions" id="place-select" name="selected_place">
+        <datalist id="datalistOptions">
+            {% for place in place_list %}
+                <option value="{{ place }}">{{ place }}</option>
+            {% endfor %}
+        </datalist>
+    </div>
+    <button class="btn" type="submit">Search</button>
+</form>
+
+{% if message %}
+    <div class="alert_msg" role="alert">
+        {{ message }}
+    </div>
+{% endif %}
+
+<div class="container">
+{% if recommended_place_titles %}
+    <h2>Recommended Tours:</h2>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            {% for i in range(recommended_place_titles|length) %}
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{ i }}" {% if loop.index0 == 0 %}class="active"{% endif %}></li>
+            {% endfor %}
+        </ol>
+        <div class="carousel-inner">
+            {% for i in range(recommended_place_titles|length) %}
+                <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+                        <img src="{{ recommended_place_posters[i] }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-size:30px; font-weight:700px;">{{ recommended_place_titles[i] }}</h5>
+                            <p class="card-text" style="font-size:20px; font-weight:700px;">Address: {{ recommended_place_address[i] }}</p>
+                            <p class="card-text" style="font-size:20px; font-weight:700px;">City: {{ recommended_place_city[i] }}</p>
+                            <p class="card-text" style="font-size:20px; font-weight:700px;">Ratings: {{ recommended_place_rating[i] }}</p>
+                            <p class="card-text" style="font-size:20px; font-weight:700px;">Review count: {{ recommended_place_numberOfReviews[i] }}</p>
+                            <button class="btn" style="margin-bottom:30px;">
+                            <a target="_blank" href="{{ recommended_place_website[i] }}">Trip advisor reviews</a>
+                            </button>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+{% endif %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+{% endblock %}
+</body>
+</html>

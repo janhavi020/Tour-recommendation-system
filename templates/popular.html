@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Popular places</title>
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+         <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/popular.css') }}">
+          <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/recommend.css') }}">
+</head>
+<body>
+
+{% extends "header.html" %}
+    {% block content %}
+<div class="container">
+
+<div class="hotels" >
+    <button class="btn" style=" margin-right: 20px;">
+    <a href="{{ url_for('hotels_results') }}"><i class="fa-solid fa-hotel"></i>  HOTELS</a>
+    </button>
+
+<!--restaurants search bar-->
+<button class="btn" style=" margin-left: 20px;" >
+    <a href="{{ url_for('restaurants_results') }}"><i class="fa-solid fa-utensils"></i>  RESTAURANTS</a>
+</button>
+    <button class="btn" style=" margin-left: 25px;" >
+    <a href="{{ url_for('weatherSearch') }}"><i class="fa-solid fa-cloud"></i>  WEATHER SEARCH</a>
+</button>
+</div>
+
+
+    <form action="/recommend" method="POST" style="display: flex; justify-content: center; align-items: center; padding:50px">
+    <div class="searchbox">
+        <input list="datalistOptions" id="place-select" name="selected_place">
+        <datalist id="datalistOptions">
+            {% for place in place_list %}
+                <option value="{{ place }}">{{ place }}</option>
+            {% endfor %}
+        </datalist>
+    </div>
+    <button class="btn" type="submit" style="border-radius:30px">Search</button>
+</form>
+
+{% if message %}
+    <div class="alert_msg" role="alert">
+        {{ message }}
+    </div>
+{% endif %}
+
+<div class="row">
+    {% for i in range(place_name|length) %}
+    <div class="col-md-4" >
+        <div class="card">
+            <img class="card-img-center"  src="{{ image[i] }}">
+            <div class="card-overlay">
+                <h4 class="text-white fw-bolder text-uppercase">{{ place_name[i] }}</h4>
+                <h4 class="text-white text-capitalize">Address-{{ address[i] }}</h4>
+                <h4 class="text-white text-capitalize">No of Reviews - {{ noOfReviews[i] }}</h4>
+                <h4 class="text-white text-capitalize">Rating - {{ rating[i] }}</h4>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}
+</body>
+</html>

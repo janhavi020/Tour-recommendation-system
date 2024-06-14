@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tour Recommender</title>
+    <link rel="icon" type="image/x-icon" href="/assets/brand-icon.svg">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Links To All Style Files -->
+      <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/hero.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/services.css') }}">
+       <link rel="stylesheet" href="{{ url_for('static',filename='/CSS/feedback-section.css') }}">
+</head>
+<body>
+<header>
+        <nav class="container">
+            <div>
+             <img src="static/assets/travel.png">
+                <h6 class="title">Detour your tours <br> with Recommendation</h6>
+                </div>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                 <li><a href="{{ url_for('popular') }}">popular Places</a></li>
+                <li><a href="{{ url_for('contactUs') }}">Contact Us</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+  {% block content %}
+    {% endblock %}
+
+<footer>
+        <div class="container">
+            <div class="footer">
+                <div>
+             <img src="static/assets/travel.png">
+                <h6 class="title">Detour your tours <br> with Recommendation</h6>
+                </div>
+                <ul>
+                     <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('popular') }}">popular Places</a></li>
+                    <li><a href="{{ url_for('contactUs') }}">Contact Us</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                </ul>
+                <p><i class="fa-regular fa-copyright"></i> 2024 Atlas</p>
+            </div>
+            <div class="socials">
+                <div class="social">
+                    <a href="https://www.instagram.com/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <div class="social">
+                    <a href="https://twitter.com/" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+                <div class="social">
+                    <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

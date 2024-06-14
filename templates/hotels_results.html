@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotels</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Positioning the .hotel-img as a background */
+        .hotel-img {
+            position: relative; /* Change position to relative */
+            width: 100%;
+            height: 70vh; /* Set height to auto to maintain image aspect ratio */
+            overflow: hidden; /* Hide any overflow content */
+            margin-bottom:30px;
+        }
+
+        .hotel-img img {
+            width: 100%;
+            height: 70vh; /* Set height to auto to maintain image aspect ratio */
+            object-fit: cover;
+        }
+
+        /* Styling for the search container */
+        .search-container {
+            position: absolute; /* Position the container absolutely */
+            top: 50%; /* Place it in the middle vertically */
+            left: 50%; /* Place it in the middle horizontally */
+            transform: translate(-50%, -50%); /* Center it */
+            text-align: center; /* Center align the contents */
+        }
+
+        .searchbox {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+{% extends "header.html" %}
+{% block content %}
+<!--hotel search-->
+<div class="hotel-img">
+    <img src="static/assets/hotel-img1.jpg">
+    <div class="search-container">
+        <h3 style="padding: 20px 20px; border-radius: 5px; color: #fff;">
+            <span style="background-color: #193282; font-family:Serif">Search nearby hotels by place name</span></h3>
+        <form action="/hotels_results" method="POST">
+            <div class="searchbox">
+                <input list="datalistOptions" name="search_query" id="hotel-select">
+                <datalist id="datalistOptions">
+                    {% for name in name_list %}
+                        <option value="{{ name }}">
+                    {% endfor %}
+                </datalist>
+            </div>
+            <button class="btn" type="submit" style="border-radius:30px">Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+{% if results is not none and results %}
+    <h2 class="mt-5" style="margin-bottom:20px;">hotels near "{{ query }}"</h2>
+    {% for hotel in results %}
+        <div class="row">
+            <div class="card-body bg-light text-dark" style="margin-bottom:30px; padding:20px 80px; border-radius:40px;">
+                <h5 class="card-title" style="font-size:30px; color:black; font-weight:500">{{ hotel['property_name'] }}</h5>
+                <p class="card-text text-info" style="font-size:20px; font-weight:500">City: {{ hotel['city'] }}</p>
+                <p class="card-text text-info" style="font-size:20px; font-weight:500">Address: {{ hotel['address'] }}</p>
+                <p class="card-text text-info" style="font-size:20px; font-weight:500">Star Rating: {{ hotel['hotel_star_rating'] }}</p>
+                <p class="card-text text-info" style="font-size:20px; font-weight:500">Price: {{ hotel['price'] }}</p>
+                <p class="card-text text-info" style="font-size:20px; font-weight:500">Hotel Rating: {{ hotel['rating'] }}</p>
+                <p class="card-text text-info" style="font-size:20px; font-weight:500">Special: {{ hotel['special'] }}</p>
+                 <form>
+                    <input type="hidden" name="price" value="{{ hotel['price'] }}">
+                    <input type="hidden" name="hotel_name" value="{{ hotel['property_name'] }}">
+                    <button class="btn"><a href="{{ url_for('book', hotel_name=hotel['property_name'], hotel_price=hotel['price']) }}" style="text-decoration:none; color:white">Book Now</a></button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+{% elif request.method == "POST" %}
+    <h3 style="display: flex; justify-content: center; align-items: center; padding:100px" class="mt-5">
+        No results found. Please try again.</h3>
+{% endif %}
+</div>
+{% endblock %}
+</body>
+</html>

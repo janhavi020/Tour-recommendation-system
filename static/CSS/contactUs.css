@@ -1,0 +1,128 @@
+﻿.content {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top:50px;
+}
+
+.content h2 {
+    font-size: 30px; /* Adjust heading font size */
+    color: white;
+    margin-bottom:30px;
+}
+
+.content p {
+    font-size: 20px; /* Adjust paragraph font size */
+    color: white; /* Adjust paragraph color */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
+.contactPage {
+    margin:120px;
+    display: flex;
+    padding:0 50px;
+    flex-wrap: wrap;
+}
+.contactInfo, .feedback-form {
+    flex: 1;
+    margin-right: 60px; /* Adjust spacing between the two sections */
+}
+.box {
+   display: flex;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+.icon {
+    flex: 0 0 auto; /* Prevent icon from stretching */
+    margin-right: 10px; /* Adjust the space between icon and text */
+}
+
+.text {
+    flex: 1; /* Allow text to take remaining space */
+}
+
+h3 {
+    margin: 0; /* Remove default margin for heading */
+}
+
+p {
+    margin: 0; /* Remove default margin for paragraph */
+}
+        form{
+            margin:0rem 0rem;
+            left:50%;
+            width:min(95%,30rem);
+            background-color: var(--background-dark);
+            padding:2rem;
+            color:var(--background-dark);
+            border-radius: 2rem;
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+            border:8px solid var(--white);
+        }
+        .feedback-form h3 span{
+            color:var(--highlight);
+        }
+        .feedback-form>input,.feedback-form>select,.feedback-form>textarea{
+            align-self: stretch;
+            border-radius: 0.5rem;
+            border:none;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+        }
+       .feedback-form label {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    color: var(--white-light);
+    font-size: var(--nav-link);
+    width: 100%; /* Make labels take full width */
+}
+
+.feedback-form input,
+.feedback-form select,
+.feedback-form textarea {
+    border-radius: 0.5rem;
+    border: none;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    width: calc(100% - 2rem); /* Adjust input width */
+}
+
+.feedback-form textarea {
+    margin-bottom: 0.5rem;
+}
+.feedback-message {
+    margin-top: 0;
+    padding:30px;
+    font-size:24px;
+}
+/* Responsive styles */
+
+@media only screen and (max-width: 768px) {
+    .contactPage {
+        margin: 50px;
+    }
+
+    .contactInfo,
+    .feedback-form {
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .content h2 {
+        font-size: 24px;
+    }
+
+    .content p {
+        font-size: 16px;
+    }
+
+    .feedback-form {
+        width: min(95%, 90%);
+    }
+}

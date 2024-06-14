@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation</title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static',     filename='/CSS/style.css') }}">
+    <style>
+    body {
+  font-family: sans-serif;
+  margin: 40px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+form {
+  width: 600px; /* Adjust as needed */
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+p {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+@media (max-width: 500px) {
+  form {
+    width: 100%;
+  }
+    </style>
+</head>
+<body>
+ {% extends "header.html" %}
+    {% block content %}
+<form action="/conf" method="POST">
+    <h1>Confirmation</h1>
+    <h4>Details</h4>
+    <h4>Name: {{ reserve[1] }}</h4>
+    <h4>Mobile: {{reserve[2]}}</h4>
+    <h4>Date: {{reserve[3]}}</h4>
+    <h4>People: {{ reserve[4] }}</h4>
+    <h4>Tables: {{ reserve[5] }}</h4>
+</form>
+ {% endblock %}
+</body>
+</html>
